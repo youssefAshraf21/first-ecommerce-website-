@@ -4,16 +4,17 @@ import { IoMdHome } from "react-icons/io";
 import { IoMdMenu } from "react-icons/io";
 import { useState, useEffect } from "react";
 import { HiX } from "react-icons/hi";
+import { useCart } from "../context/CartContext";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const { cartCount } = useCart();
 
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 10);
         };
-
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
@@ -26,21 +27,25 @@ export default function Navbar() {
         >
             <div className="flex justify-between items-center h-full px-20">
                 <div className="text-white">
-                    <Link
-                        to="/"
+                    <h1
                         className={`font-bold hover:cursor-pointer transition-all duration-300 ${
                             isScrolled ? "text-lg" : "text-2xl"
                         }`}
                     >
                         ShopNow
-                    </Link>
+                    </h1>
                 </div>
-                <div className="hidden md:flex gap-6 text-white">
+                <div className="hidden md:flex gap-6 text-white items-center">
                     <Link to="/" className="hover:cursor-pointer hover:text-gray-400">
                         <IoMdHome size={isScrolled ? 20 : 24} />
                     </Link>
-                    <Link to="/checkout" className="hover:cursor-pointer hover:text-gray-400">
+                    <Link to="/checkout" className="relative hover:cursor-pointer hover:text-gray-400">
                         <IoCartOutline size={isScrolled ? 20 : 24} />
+                        {cartCount > 0 && (
+                            <span className="absolute -top-2 -right-2 bg-coral text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                                {cartCount}
+                            </span>
+                        )}
                     </Link>
                 </div>
                 <div className="hidden md:flex gap-6">
@@ -64,8 +69,13 @@ export default function Navbar() {
                     <Link to="/" onClick={() => setIsOpen(false)} className="flex items-center gap-2 hover:text-gray-400">
                         <IoMdHome size={22} /> Home
                     </Link>
-                    <Link to="/checkout" onClick={() => setIsOpen(false)} className="flex items-center gap-2 hover:text-gray-400">
+                    <Link to="/checkout" onClick={() => setIsOpen(false)} className="relative flex items-center gap-2 hover:text-gray-400">
                         <IoCartOutline size={22} /> Checkout
+                        {cartCount > 0 && (
+                            <span className="bg-coral text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                                {cartCount}
+                            </span>
+                        )}
                     </Link>
                     <Link
                         to="/auth"

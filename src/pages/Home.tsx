@@ -1,9 +1,10 @@
 import { getProducts } from "../data/products";
 import { Link } from 'react-router-dom';
-import ProductCard from "../components/ProductCard";
+import { useCart } from "../context/CartContext";
 
 export default function Home() {
     const products = getProducts();
+    const { addToCart } = useCart();
 
     return (
         <div className="bg-cream font-body text-ink min-h-screen">
@@ -57,7 +58,6 @@ export default function Home() {
                     <div className="flex items-baseline justify-between mb-10 border-b border-ink/10 pb-4">
                         <h2 className="font-display text-3xl md:text-4xl">Our Products</h2>
                         <span className="text-sm text-ink/50">{products.length} items</span>
-                        
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-px bg-ink/10">
@@ -87,7 +87,10 @@ export default function Home() {
                                     >
                                         View Details
                                     </Link>
-                                    <button className="flex-1 bg-coral text-cream font-semibold text-sm px-3 py-2 hover:bg-ink transition-colors">
+                                    <button
+                                        onClick={() => addToCart(product)}
+                                        className="flex-1 bg-coral text-cream font-semibold text-sm px-3 py-2 hover:bg-ink transition-colors"
+                                    >
                                         Add to Cart
                                     </button>
                                 </div>
