@@ -5,7 +5,7 @@ import { useCart } from "../context/CartContext";
 export default function Home() {
     const products = getProducts();
     const { addToCart } = useCart();
-
+    
     return (
         <div className="bg-cream font-body text-ink min-h-screen">
             {/* Hero */}
